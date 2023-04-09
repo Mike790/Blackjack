@@ -50,4 +50,12 @@ class Hand {
         }
         return sb.toString();
     }
+
+    public String firstCard() {
+        if (!cards.isEmpty()) {
+            return cards.get(0).toString();
+        } else {
+            return "No cards in hand";
+        }
+    }
 }

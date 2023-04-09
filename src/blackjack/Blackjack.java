@@ -25,7 +25,7 @@ public class Blackjack {
 
             System.out.println("Welcome to Blackjack!");
             System.out.println("Player's Hand: " + player.getHand() + " (Total Value: " + player.getHand().getHandValue() + ")");
-            System.out.println("Dealer's Hand: " + dealer.getHand() + "(Total Value: " + dealer.getHand().getHandValue() + ")");
+            System.out.println("Dealer's face card: " + dealer.getHand().firstCard());
 
             // Player's turn
             boolean playerBusted = false;
@@ -69,7 +69,7 @@ public class Blackjack {
                     } else if (dealerHandValue > playerHandValue) {
                         System.out.println("Dealer wins!");
                     } else {
-                        System.out.println("It's a tie!");
+                        System.out.println("It's a tie! Dealer wins on tie.");
                     }
                 }
             }
