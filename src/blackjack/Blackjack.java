@@ -24,7 +24,7 @@ public class Blackjack {
             dealer.dealInitialCards(player, dealer);
 
             System.out.println("Welcome to Blackjack!");
-            System.out.println("Player's Hand: " + player.getHand() + " (Total Value: " + player.getHand().getHandValue() + ")");
+            System.out.println(playerName + "'s Hand: " + player.getHand() + " (Total Value: " + player.getHand().getHandValue() + ")");
             System.out.println("Dealer's face card: " + dealer.getHand().firstCard());
 
             // Player's turn
