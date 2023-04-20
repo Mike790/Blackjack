@@ -10,6 +10,7 @@ import java.util.List;
 class Hand {
 
     private final List<Card> cards = new ArrayList<>();
+    boolean hasAce = false;
 
     public void addCard(Card card) {
         cards.add(card);
@@ -17,19 +18,18 @@ class Hand {
 
     public int getHandValue() {
         int handValue = 0;
-        boolean hasAce = false;
-
         for (Card card : cards) {
             int rankValue = Math.min(10, card.getRank().ordinal() + 1); // Ace has rankValue of 11, but can be reduced to 1 if a bust would otherwise occur
             handValue += rankValue;
 
             if (card.getRank() == Card.Rank.ACE) {
                 hasAce = true;
+                handValue += 10;
             }
         }
-
-        if (hasAce && handValue > 21) {
+        if (hasAce && (handValue >= 22)) {
             handValue -= 10; // Reduce Ace rankValue from 11 to 1
+            
         }
 
         return handValue;
