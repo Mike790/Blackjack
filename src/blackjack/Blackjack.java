@@ -3,22 +3,21 @@ package blackjack;
 /**
  *
  * @author Michael Sousa
+ * @author Ran Ren
  */
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Blackjack {
 
     private static final int BLACKJACK_VALUE = 21;
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        IOHandler iohandle = IOHandler.getInstance();
         boolean playAgain = true;
         while (playAgain) {
             Deck deck = new Deck();
             Dealer dealer = new Dealer("Dealer", deck);
             System.out.println("Enter your name!");
-            String playerName = input.nextLine();
+            String playerName = iohandle.getString(System.in);
             Player player = new Player(playerName);
 
             dealer.dealInitialCards(player, dealer);
@@ -30,27 +29,23 @@ public class Blackjack {
             // Player's turn
             boolean playerBusted = false;
             while (true) {
-                try {
-                    System.out.println("1. Hit");
-                    System.out.println("2. Stand");
-                    System.out.print("Enter your choice: ");
-                    int choice = input.nextInt();
-                    if (choice == 1) {
-                        dealer.dealCard(player);
-                        System.out.println(playerName + " 's Hand: " + player.getHand() + " (Total Value: " + player.getHand().getHandValue() + ")");
-                        if (busted(player)) {
-                            System.out.println(playerName + " busts! Dealer wins!");
-                            playerBusted = true;
-                            break;
-                        }
-                    } else if (choice == 2) {
+                System.out.println("1. Hit");
+                System.out.println("2. Stand");
+                System.out.print("Enter your choice: ");
+                String[] options = {"1", "2", "hit", "stand"};
+                String choice = iohandle.selectOption(System.in, options);
+                if (choice.equals("1") || choice.equals("hit")) {
+                    dealer.dealCard(player);
+                    System.out.println(playerName + " 's Hand: " + player.getHand() + " (Total Value: " + player.getHand().getHandValue() + ")");
+                    if (busted(player)) {
+                        System.out.println(playerName + " busts! Dealer wins!");
+                        playerBusted = true;
                         break;
-                    } else {
-                        System.out.println("Invalid choice. Please choose again.");
                     }
-                } catch (InputMismatchException exception) {
-                    System.out.println("Invalid input type. Please enter 1 or 2.");
-                    input.next();
+                } else if (choice.equals("2") || choice.equals("stand")) {
+                    break;
+                } else {
+                    System.out.println("Invalid choice. Please choose again.");
                 }
             }
 
@@ -75,12 +70,14 @@ public class Blackjack {
             }
 
             // Play again
-            System.out.println("Do you want to play again? (yes/no)");
-            input.nextLine();
-            String playAgainChoice = input.nextLine();
-            if (playAgainChoice.equalsIgnoreCase("yes")) {
+            System.out.println("Do you want to play again?");
+            System.out.println("1. yes");
+            System.out.println("2. no");
+            String[] choices = {"1", "y", "yes", "2", "n", "no"};
+            String playAgainChoice = iohandle.selectOption(System.in, choices);
+            if (playAgainChoice.equals("1") || playAgainChoice.equals("y") || playAgainChoice.equals("yes")) {
                 playAgain = true;
-            } else {
+            } else if (playAgainChoice.equals("2") || playAgainChoice.equals("n") || playAgainChoice.equals("no")) {
                 playAgain = false;
             }
 
